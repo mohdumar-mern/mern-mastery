@@ -1,12 +1,12 @@
 // src/components/Register.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useRegisterMutation } from '../api/apiSlice';
 import { toast } from 'react-toastify';
+import { useRegisterMutation } from '../../app/api/apiSlice/auth/authApiSlice';
 
 function Register() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', role: 'user' });
-//   const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,7 +16,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    //   await register(formData).unwrap();
+      await register(formData).unwrap();
       toast.success('Registration successful');
       navigate('/login');
     } catch (err) {
@@ -68,8 +68,7 @@ function Register() {
         // disabled={isLoading}
         className="w-full p-2 bg-blue-500 text-white rounded disabled:opacity-50"
       >
-        {/* {isLoading ? 'Registering...' : 'Register'} */}
-     Register
+        {isLoading ? 'Registering...' : 'Register'}
       </button>
     </form>
   );

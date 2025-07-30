@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { useLoginMutation } from '../api/apiSlice';
 import { toast } from 'react-toastify';
+import { useLoginMutation } from '../../app/api/apiSlice/auth/authApiSlice';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
-//   const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,7 +17,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    //   await login(formData).unwrap();
+      await login(formData).unwrap();
       toast.success('Login successful');
       navigate('/courses');
     } catch (err) {
@@ -50,8 +51,7 @@ function Login() {
         // disabled={isLoading}
         className="w-full p-2 bg-blue-500 text-white rounded disabled:opacity-50"
       >
-        {/* {isLoading ? 'Logging in...' : 'Login'} */}
-      Login
+        {isLoading ? 'Logging in...' : 'Login'}
       </button>
     </form>
   );
