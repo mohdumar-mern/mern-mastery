@@ -1,7 +1,6 @@
 // src/components/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useLoginMutation } from '../api/apiSlice';
 import { toast } from 'react-toastify';
 import { useLoginMutation } from '../../app/api/apiSlice/auth/authApiSlice';
 
@@ -17,7 +16,9 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(formData).unwrap();
+    const res =    await login(formData).unwrap();
+      console.log(res);
+
       toast.success('Login successful');
       navigate('/courses');
     } catch (err) {

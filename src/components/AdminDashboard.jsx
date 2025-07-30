@@ -1,12 +1,11 @@
 // src/components/AdminDashboard.jsx
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 import { useAddLectureMutation, useAddUnitMutation, useCreateCourseMutation, useGetCoursesQuery } from '../app/api/apiSlice/course/courseApiSlice';
 
 function AdminDashboard() {
-  const { user } = useSelector((state) => state.auth);
+  const user= JSON.parse(localStorage.getItem("user"))
   const [courseForm, setCourseForm] = useState({ title: '', description: '', category: '' });
   const [unitForm, setUnitForm] = useState({ courseId: '', title: '', file: null });
   const [lectureForm, setLectureForm] = useState({
@@ -22,7 +21,6 @@ function AdminDashboard() {
   const [addLecture] = useAddLectureMutation();
 
   const courses = coursesData?.courses || [];
-
   const handleCourseSubmit = async (e) => {
     e.preventDefault();
     try {

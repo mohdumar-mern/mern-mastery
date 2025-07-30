@@ -13,10 +13,10 @@ export const courseApiSlice = apiSlice.injectEndpoints({
             query: (id) => `/courses/${id}`,
         }),
         getSignedUrl: builder.query({
-            query: ({ publicId, fileType }) => ({
+            query: ({ publicId, fileType, version }) => ({
                 url: '/courses/signed-url',
                 method: 'POST',
-                body: { publicId, fileType },
+                body: { publicId, fileType,version },
             }),
         }),
         createCourse: builder.mutation({

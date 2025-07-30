@@ -69,7 +69,7 @@ function CourseDetail() {
                     <div className="mb-4">
                         <h4 className="text-lg">Introduction</h4>
                         {unit.introduction.fileType === 'video' ? (
-                            <SecureVideoPlayer publicId={unit.introduction.publicId} fileType={unit.introduction.fileType} />
+                            <SecureVideoPlayer publicId={unit.introduction.publicId} fileType={unit.introduction.fileType} version={unit.introduction.version} />
                         ) : (
                             <iframe src={unit.introduction.fileUrl} className="w-full h-96" title="Introduction PDF" />
                         )}
@@ -82,7 +82,7 @@ function CourseDetail() {
                             <div key={lecture._id} className="mb-4">
                                 <h4 className="text-lg">{lecture.title}</h4>
                                 {lecture.fileType === 'video' ? (
-                                    <SecureVideoPlayer publicId={lecture.publicId} fileType={lecture.fileType} />
+                                    <SecureVideoPlayer publicId={lecture.publicId} fileType={lecture.fileType} version={lecture.version} />
                                 ) : (
                                     <iframe src={lecture.fileUrl} className="w-full h-96" title="Lecture PDF" />
                                 )}
