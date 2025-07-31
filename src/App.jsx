@@ -22,7 +22,9 @@ function App() {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/courses' element={<CoursesPage />} />
-        <Route path="/courses/:id" element={<CoursePage />} >
+        {/* <Route path="/course/:id" element={<CoursePage />} /> */}
+        <Route path="/course/:id" element={<CoursePage />} >
+          <Route index element={<LecturePlayer />} />
           <Route path="lecture/:lectureId" element={<LecturePlayer />} />
 
         </Route>

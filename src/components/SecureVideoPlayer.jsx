@@ -14,6 +14,7 @@ function SecureVideoPlayer({ publicId, fileType, version }) {
     { skip: !publicId || !fileType || !version }
   );
 
+
   useEffect(() => {
     const video = videoRef.current;
     if (!data?.url || !video || fileType !== 'video') return;

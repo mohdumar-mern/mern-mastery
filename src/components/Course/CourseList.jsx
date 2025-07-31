@@ -16,7 +16,7 @@ function CourseList() {
       <h2 className="text-2xl mb-4">Courses</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {data?.courses.map((course) => (
-          <Link to={`/courses/${course._id}`} key={course._id} className="p-4 bg-white rounded shadow">
+          <Link to={`/course/${course._id}`} key={course._id} className="p-4 bg-white rounded shadow">
             <h3 className="text-xl">{course.title}</h3>
             <p>{course.description}</p>
             <p className="text-sm text-gray-500">{course.category}</p>

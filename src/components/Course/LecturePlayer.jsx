@@ -1,27 +1,36 @@
-import React, {  useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import SecureVideoPlayer from '../SecureVideoPlayer';
 
 function LecturePlayer() {
   const { selectedLecture } = useOutletContext();
+  console.log("selectedLecture", selectedLecture);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!selectedLecture) {
-      // Redirect or handle no lecture selected
-      console.log('No lecture selected');
+      console.log('No lecture selected, redirecting to course page');
+      navigate(`/course/${selectedLecture?._id || 'default'}`); // Redirect to course page if no lecture
     }
-  }, [selectedLecture]);
+  }, [selectedLecture, navigate]);
 
-  if (!selectedLecture) return <div className="text-center p-4">Select a lecture to play</div>;
+  if (!selectedLecture) return <div className="text-center p-4 text-gray-500">Loading lecture...</div>;
+
+  // Destructure props based on whether it's an introduction or lecture
+  const { publicId, fileType, version } = selectedLecture.introduction
+    ? selectedLecture.introduction
+    : selectedLecture;
 
   return (
-    <div className="mb-6">
-      <h3 className="text-2xl mb-2">{selectedLecture.title}</h3>
+    <div className="mb-6 p-4 bg-white/90 rounded-lg shadow-md">
+    
+          <h3 className="text-2xl font-semibold text-gray-800 mb-4">{selectedLecture.title}</h3>
       <SecureVideoPlayer
-        publicId={selectedLecture.publicId}
-        fileType={selectedLecture.fileType}
-        version={selectedLecture.version}
+        publicId={publicId}
+        fileType={fileType}
+        version={version}
       />
+    
     </div>
   );
 }
