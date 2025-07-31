@@ -1,13 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <meta name="description" content="Explore secure video courses with high-quality streaming at MERN Mastery. Start learning today!" />
+    <meta name="keywords" content="MERN, courses, video learning, secure streaming, online education" />
+    <meta name="author" content="MERN Mastery Team" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="MERN Mastery - Online Learning Platform" />
+    <meta property="og:description" content="Discover high-quality, secure video courses with MERN Mastery." />
+    <meta property="og:image" content="/logo.png" />
+    <meta property="og:url" content="https://yourdomain.com" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MERN Mastery - Online Learning Platform" />
+    <meta name="twitter:description" content="Discover high-quality, secure video courses with MERN Mastery." />
+    <meta name="twitter:image" content="/logo.png" />
+
+    <!-- Favicon -->
+    <!-- <link rel="icon" type="image/icon" href="/favicon.ico" /> -->
+     <link rel="icon" type="image/png" href="/logo.png" sizes="16x16" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.jsx" as="script" />
+    <link rel="stylesheet" href="/src/assets/styles.css" as="style" />
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' https://yourapi.com;" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+
+    <!-- Title -->
+    <title>MERN Mastery - Learn Securely</title>
   </head>
-  <body>
+  <body class="bg-gray-100">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Fallback for JavaScript-disabled users -->
+    <noscript>
+      <div class="text-center p-4 bg-red-100 text-red-800">
+        This site requires JavaScript to function properly. Please enable JavaScript in your browser.
+      </div>
+    </noscript>
   </body>
 </html>

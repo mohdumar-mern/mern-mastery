@@ -15,7 +15,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(setCredentials({ user: data.user, token: data.token }));
         } catch (err) {
-            console.error(err);
+            authenticated.error(err);
         }
       },
     }),
@@ -30,7 +30,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(setCredentials({ user: data.user, token: data.token }));
         } catch (err) {
-            console.error(err);
+            authenticated.error(err);
         }
       },
     }),
@@ -54,7 +54,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           dispatch(setCredentials({ token: data.token }));
         } catch (err) {
           dispatch(logout());
-          console.error(err)
+          authenticated.error(err)
         }
       },
     }),

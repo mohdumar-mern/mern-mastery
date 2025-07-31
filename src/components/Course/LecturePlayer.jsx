@@ -4,15 +4,13 @@ import SecureVideoPlayer from '../SecureVideoPlayer';
 
 function LecturePlayer() {
   const { selectedLecture } = useOutletContext();
-  console.log("selectedLecture", selectedLecture);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!selectedLecture) {
-      console.log('No lecture selected, redirecting to course page');
-      navigate(`/course/${selectedLecture?._id || 'default'}`); // Redirect to course page if no lecture
-    }
-  }, [selectedLecture, navigate]);
+  // useEffect(() => {
+  //   if (!selectedLecture) {
+  //     navigate(`/course/${selectedLecture?._id || 'default'}`); // Redirect to course page if no lecture
+  //   }
+  // }, [selectedLecture, navigate]);
 
   if (!selectedLecture) return <div className="text-center p-4 text-gray-500">Loading lecture...</div>;
 
