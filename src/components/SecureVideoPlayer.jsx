@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Hls from 'hls.js';
+import { useSelector } from 'react-redux';
 import { useGetSignedUrlQuery } from '../app/api/apiSlice/course/courseApiSlice';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -9,6 +10,9 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
   const [retryCount, setRetryCount] = useState(0);
   const [isBuffering, setIsBuffering] = useState(true);
   const [bufferedPercent, setBufferedPercent] = useState(0);
+
+  const {user} = useSelector((state) => state.auth);
+  console.log(user)
 
   const {
     data,
@@ -139,6 +143,19 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
             className="h-1 bg-green-500 transition-all duration-300"
             style={{ width: `${bufferedPercent}%` }}
           ></div>
+        </div>
+      )}
+      {/* Watermark Overlay */}
+      {!isBuffering && (
+        <div
+          className="absolute inset-0 flex top-2 right-1.5 justify-end pointer-events-none"
+          style={{
+            background: 'rgba(0, 0, 0, 0.2)', // Semi-transparent background for visibility
+          }}
+        >
+          <span className="text-white text-lg font-semibold opacity-20">
+         {user?.email}
+          </span>
         </div>
       )}
     </div>
