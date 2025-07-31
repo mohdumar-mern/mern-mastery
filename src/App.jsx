@@ -8,19 +8,24 @@ import CoursesPage from './pages/Courses/CoursesPage';
 import CoursePage from './pages/Courses/CoursePage';
 import AdminPage from './pages/AdminPage';
 import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
+import LecturePlayer from './components/Course/LecturePlayer';
 
 
 function App() {
 
   return (
-    <div className="min-h-screen bg-gray-100 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-100  mx-auto">
       <Navbar />
       <Routes>
-        <Route path='/' element={<h1>Home</h1>} />
+        <Route path='/' element={<HomePage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/courses' element={<CoursesPage />} />
-        <Route path="/courses/:id" element={<CoursePage />} />
+        <Route path="/courses/:id" element={<CoursePage />} >
+          <Route path="lecture/:lectureId" element={<LecturePlayer />} />
+
+        </Route>
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
       <ToastContainer />

@@ -8,6 +8,7 @@ function CourseList() {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useGetCoursesQuery({ page, limit: 10 });
 
+
   if (isLoading) return <div className="text-center p-4">Loading...</div>;
 
   return (
