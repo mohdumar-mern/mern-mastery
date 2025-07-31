@@ -214,6 +214,7 @@ function CourseDetail() {
   const navigate = useNavigate();
 
   const { data: course, isLoading: courseLoading } = useGetCourseByIdQuery(id);
+  console.log("course", course);
   const { data: progress, isLoading: progressLoading } = useGetProgressQuery();
   const [rateCourse] = useRateCourseMutation();
   const [commentCourse] = useCommentCourseMutation();
