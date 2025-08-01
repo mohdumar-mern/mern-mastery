@@ -17,8 +17,8 @@ function AdminDashboard() {
   });
   const { data: coursesData, isLoading: coursesLoading } = useGetCoursesQuery({ limit: 100 });
   const [createCourse] = useCreateCourseMutation();
-  const [addUnit] = useAddUnitMutation();
-  const [addLecture] = useAddLectureMutation();
+  const [addUnit, {isLoading: addUnitLoading}] = useAddUnitMutation();
+  const [addLecture, {isLoading: addLectureLoading}] = useAddLectureMutation();
 
   const courses = coursesData?.courses || [];
   const handleCourseSubmit = async (e) => {
@@ -119,7 +119,7 @@ function AdminDashboard() {
           className="w-full p-2 mb-2"
         />
         <button type="submit" className="p-2 bg-blue-500 text-white rounded">
-          Add Unit
+          { addUnitLoading ? 'Add Unit...' :'Add Unit'}
         </button>
       </form>
       <form onSubmit={handleLectureSubmit} className="p-4 bg-white rounded shadow">
@@ -172,7 +172,7 @@ function AdminDashboard() {
           className="w-full p-2 mb-2"
         />
         <button type="submit" className="p-2 bg-blue-500 text-white rounded">
-          Add Lecture
+          {addLectureLoading ? "Add...":"Add Lecture"}
         </button>
       </form>
     </div>

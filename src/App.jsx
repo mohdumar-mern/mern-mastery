@@ -39,7 +39,10 @@ function App() {
               element={
                 // Add authentication check (example)
                 <RequireAuth>
+                  {/* <ProtectedContent> */}
                   <AdminPage />
+                  {/* </ProtectedContent> */}
+                    
                 </RequireAuth>
               }
             />

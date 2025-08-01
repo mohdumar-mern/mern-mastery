@@ -1,0 +1,12 @@
+.protected-content {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: auto;
+}
+
+
+/* video {
+  pointer-events: none; 
+}  */

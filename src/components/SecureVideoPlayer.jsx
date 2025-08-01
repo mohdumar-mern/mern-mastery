@@ -3,6 +3,7 @@ import Hls from 'hls.js';
 import { useSelector } from 'react-redux';
 import { useGetSignedUrlQuery } from '../app/api/apiSlice/course/courseApiSlice';
 import LoadingSpinner from './LoadingSpinner';
+import CryptoJS from 'crypto-js';
 
 function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
   const videoRef = useRef(null);
@@ -10,9 +11,9 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
   const [retryCount, setRetryCount] = useState(0);
   const [isBuffering, setIsBuffering] = useState(true);
   const [bufferedPercent, setBufferedPercent] = useState(0);
+  const [decryptionError, setDecryptionError] = useState(null);
 
-  const {user} = useSelector((state) => state.auth);
-  console.log(user)
+  const { user } = useSelector((state) => state.auth);
 
   const {
     data,
@@ -23,6 +24,40 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
     { publicId, fileType, version },
     { skip: !publicId || !fileType || !version }
   );
+
+  // Decrypt the encrypted URL
+  const decryptUrl = (encryptedUrl) => {
+    try {
+      const secretKey = import.meta.env.VITE_AES_SECRET_KEY;
+      if (!secretKey) {
+        throw new Error('AES secret key is not configured in environment variables.');
+      }
+      const [ivHex, encryptedHex] = encryptedUrl.split(':');
+      if (!ivHex || !encryptedHex) {
+        throw new Error('Invalid encrypted URL format.');
+      }
+      const iv = CryptoJS.enc.Hex.parse(ivHex);
+      const encrypted = CryptoJS.enc.Hex.parse(encryptedHex);
+      const decrypted = CryptoJS.AES.decrypt(
+        { ciphertext: encrypted },
+        CryptoJS.enc.Hex.parse(secretKey),
+        { iv: iv }
+      );
+      return decrypted.toString(CryptoJS.enc.Utf8);
+    } catch (err) {
+      console.error('Decryption error:', err.message);
+      setDecryptionError(err.message);
+      return null;
+    }
+  };
+
+  // Get decrypted URL
+  const decryptedUrl = useMemo(() => {
+    if (data?.encryptedUrl) {
+      return decryptUrl(data.encryptedUrl);
+    }
+    return null;
+  }, [data?.encryptedUrl]);
 
   // Memoized HLS setup configuration
   const hlsConfig = useMemo(
@@ -37,13 +72,13 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
   );
 
   // Memoized effect dependencies
-  const effectDeps = useMemo(() => [data?.url, fileType, retryCount, refetch], [data?.url, fileType, retryCount, refetch]);
+  const effectDeps = useMemo(() => [decryptedUrl, fileType, retryCount, refetch], [decryptedUrl, fileType, retryCount, refetch]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!data?.url || !video || fileType !== 'video') return;
+    if (!decryptedUrl || !video || fileType !== 'video') return;
 
-    const isHls = data.url.endsWith('.m3u8');
+    const isHls = decryptedUrl.endsWith('.m3u8');
     let hlsInstance = hlsRef.current;
 
     const setupHls = () => {
@@ -52,7 +87,7 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
       hlsRef.current = hlsInstance;
 
       hlsInstance.attachMedia(video);
-      hlsInstance.loadSource(data.url);
+      hlsInstance.loadSource(decryptedUrl);
 
       hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
         setRetryCount(0);
@@ -75,7 +110,7 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
     };
 
     const setupNativeHls = () => {
-      video.src = data.url;
+      video.src = decryptedUrl;
       video.addEventListener('loadedmetadata', () => setIsBuffering(false));
       video.addEventListener('ended', onEnd);
     };
@@ -114,10 +149,11 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
         video.removeEventListener('ended', onEnd);
       }
     };
-  }, effectDeps); // Optimized dependency array
+  }, effectDeps);
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <div className="text-center text-red-500 p-4">Error: {error?.data?.message || 'Failed to load video'}</div>;
+  if (decryptionError) return <div className="text-center text-red-500 p-4">Decryption Error: {decryptionError}</div>;
   if (fileType !== 'video') return null;
 
   return (
@@ -130,7 +166,7 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
         disablePictureInPicture
         onContextMenu={(e) => e.preventDefault()}
         className="w-full h-96 rounded-lg shadow-lg bg-black"
-        onKeyDown={(e) => e.key === 'F12' && e.preventDefault()} // Additional security
+        onKeyDown={(e) => e.key === 'F12' && e.preventDefault()}
       />
       {isBuffering && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -145,16 +181,15 @@ function SecureVideoPlayer({ publicId, fileType, version, onEnd }) {
           ></div>
         </div>
       )}
-      {/* Watermark Overlay */}
       {!isBuffering && (
         <div
           className="absolute inset-0 flex top-2 right-1.5 justify-end pointer-events-none"
           style={{
-            background: 'rgba(0, 0, 0, 0.2)', // Semi-transparent background for visibility
+            background: 'rgba(0, 0, 0, 0.2)',
           }}
         >
           <span className="text-white text-lg font-semibold opacity-20">
-         {user?.email}
+            {user?.email}
           </span>
         </div>
       )}
