@@ -15,7 +15,7 @@ const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
 const CoursesPage = lazy(() => import('./pages/Courses/CoursesPage'));
 const CoursePage = lazy(() => import('./pages/Courses/CoursePage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
-const LecturePlayer = lazy(() => import('./components/Course/LecturePlayer'));
+const LecturePlayer = lazy(() => import('./components/LecturePlayer'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 // const RegisterPage = lazy(() => import('./pages/auth/RegisterPage')); // Uncomment if needed
 

@@ -43,6 +43,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         dispatch(logout());
       },
     }),
+    getAesKey: builder.query({
+      query: () => ({
+        url: '/auth/getAesKey',
+        method: 'GET',
+      }),
+    }),
+  
     refreshToken: builder.mutation({
       query: () => ({
         url: '/auth/refresh',
@@ -62,4 +69,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
 })
 })
 
-export const { useRegisterMutation, useLoginMutation, useLogoutMutation, useRefreshTokenMutation } = authApiSlice;
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation, useRefreshTokenMutation, useGetAesKeyQuery } = authApiSlice;
